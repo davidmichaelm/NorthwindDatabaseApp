@@ -14,8 +14,8 @@ namespace NorthwindDatabaseApp.UI.Menus
             
             MenuOptions = new Dictionary<string, string>
             {
-                {"1", "Maintain Products"},
-                {"2", "Maintain Categories"},
+                {"1", "Manage Products"},
+                {"2", "Manage Categories"},
                 {"3", "Exit"}
             };
             MenuActions = new Dictionary<string, Func<bool>>
