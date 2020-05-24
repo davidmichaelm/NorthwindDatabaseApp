@@ -1,0 +1,4 @@
+bin/
+obj/
+/packages/
+/NorthwindDatabaseApp/App.config
