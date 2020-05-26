@@ -10,29 +10,29 @@ namespace NorthwindDatabaseApp.UI.Menus
         protected IDisplay _display;
         protected IInput _input;
         protected Dictionary<string, string> MenuOptions;
-        protected Dictionary<string, Func<bool>> MenuActions;
+        protected Dictionary<string, Action> MenuActions;
+        
+        public bool KeepRunning { get; set; }
         
         protected Menu(IDisplay display, IInput input)
         {
             _display = display;
             _input = input;
+            KeepRunning = true;
         }
 
-        public bool RunMenu()
+        public void RunMenu()
         {
-            bool keepRunning;
             do
             {
                 var userChoice = _input.GetMenuOption(MenuOptions);
-                keepRunning = MenuActions[userChoice]();
-            } while (keepRunning);
-
-            return true;
+                MenuActions[userChoice]();
+            } while (KeepRunning);
         }
 
-        public bool ExitMenu()
+        public void ExitMenu()
         {
-            return false;
+            KeepRunning = false;
         }
         
         public IBehavior CreateBehavior(BehaviorType type)

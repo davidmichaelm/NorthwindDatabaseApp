@@ -11,7 +11,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
         {
         }
 
-        public override bool Run()
+        public override void Run()
         {
             var userProductIdChoice = GetUserProductIdChoice();
 
@@ -43,8 +43,6 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
                     }
                 }
             }
-
-            return true;
         }
     }
 }

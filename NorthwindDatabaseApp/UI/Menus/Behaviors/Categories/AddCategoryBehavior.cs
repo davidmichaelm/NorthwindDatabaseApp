@@ -12,7 +12,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
         {
         }
 
-        public override bool Run()
+        public override void Run()
         {
             var category = new Category
             {
@@ -42,8 +42,6 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
                     logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
                 }
             }
-
-            return true;
         }
     }
 }

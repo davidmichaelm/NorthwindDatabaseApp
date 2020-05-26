@@ -13,7 +13,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
         {
         }
 
-        public override bool Run()
+        public override void Run()
         {
             using (var db = new NorthwindContext())
             {
@@ -56,8 +56,6 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
                     logger.Error("Failed to edit category with CategoryId {0}", categoryId);
                 }
             }
-
-            return true;
         }
     }
 }

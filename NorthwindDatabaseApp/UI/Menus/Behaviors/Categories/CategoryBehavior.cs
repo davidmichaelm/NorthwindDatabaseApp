@@ -14,7 +14,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
             _display = display;
         }
         
-        public abstract bool Run();
+        public abstract void Run();
 
         protected int GetUserCategoryIdChoice()
         {

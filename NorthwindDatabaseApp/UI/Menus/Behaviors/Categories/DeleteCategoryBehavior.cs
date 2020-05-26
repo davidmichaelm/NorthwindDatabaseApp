@@ -11,7 +11,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
         {
         }
 
-        public override bool Run()
+        public override void Run()
         {
             var userCategoryIdChoice = GetUserCategoryIdChoice();
 
@@ -40,8 +40,6 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
                     }
                 }
             }
-
-            return true;
         }
     }
 }

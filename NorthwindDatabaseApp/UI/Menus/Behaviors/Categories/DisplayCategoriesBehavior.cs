@@ -14,23 +14,26 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
             _displayType = displayType;
         }
 
-        public override bool Run()
+        public override void Run()
         {
             switch (_displayType)
             {
                 case CategoryDisplayBehaviorType.AllCategories:
-                    return DisplayAllCategories();
+                    DisplayAllCategories();
+                    break;
                 case CategoryDisplayBehaviorType.CategoriesAndProducts:
-                    return DisplayAllCategoriesAndProducts();
+                    DisplayAllCategoriesAndProducts();
+                    break;
                 case CategoryDisplayBehaviorType.CategoryDetails:
-                    return DisplayCategoryDetails();
+                    DisplayCategoryDetails();
+                    break;
                 default:
                     logger.Error("Unkown CategoryDisplayBehaviorType");
-                    return true;
+                    break;
             }
         }
         
-        private bool DisplayAllCategories()
+        private void DisplayAllCategories()
         {
             using (var db = new NorthwindContext())
             {
@@ -42,11 +45,9 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
                 
                 logger.Info("Fetched {0} categories from the database", categoryList.Count());
             }
-
-            return true;
         }
         
-        private bool DisplayAllCategoriesAndProducts()
+        private void DisplayAllCategoriesAndProducts()
         {
             using (var db = new NorthwindContext())
             {
@@ -67,11 +68,9 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
                 
                 logger.Info("Fetched {0} categories and {1} products from database", categoryList.Count(), productCount);
             }
-
-            return true;
         }
         
-        private bool DisplayCategoryDetails()
+        private void DisplayCategoryDetails()
         {
             var userCategoryIdChoice = GetUserCategoryIdChoice();
 
@@ -95,8 +94,6 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Categories
                     logger.Error("Failed to find category with id {0}", userCategoryIdChoice);
                 }
             }
-
-            return true;
         }
     }
 }

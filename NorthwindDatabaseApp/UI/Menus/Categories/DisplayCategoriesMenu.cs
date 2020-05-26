@@ -18,11 +18,11 @@ namespace NorthwindDatabaseApp.UI.Menus.Categories
                 {"3", "Display single Category details and related active Products"},
                 {"4", "Back"}
             };
-            MenuActions = new Dictionary<string, Func<bool>>
+            MenuActions = new Dictionary<string, Action>
             {
-                {"1", displayAllCategories.Run},
-                {"2", displayCategoriesAndProducts.Run},
-                {"3", displayCategoryDetails.Run},
+                {"1", () => displayAllCategories.Run()},
+                {"2", () => displayCategoriesAndProducts.Run()},
+                {"3", () => displayCategoryDetails.Run()},
                 {"4", ExitMenu}
             };
         }

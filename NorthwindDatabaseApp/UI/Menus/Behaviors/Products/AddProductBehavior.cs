@@ -13,7 +13,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
         {
         }
 
-        public override bool Run()
+        public override void Run()
         {
             using (var db = new NorthwindContext())
             {
@@ -51,7 +51,6 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
                 logger.Info("Added product {0}", product.ProductName);
 
             }
-            return true;
         }
     }
 }

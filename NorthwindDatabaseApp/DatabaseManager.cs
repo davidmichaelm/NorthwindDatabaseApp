@@ -17,11 +17,10 @@ namespace NorthwindDatabaseApp
         public void Run()
         {
             var mainMenu = new MainMenu(_display, _input);
-            var keepRunning = true;
 
-            while (keepRunning)
+            while (mainMenu.KeepRunning)
             {
-                keepRunning = mainMenu.RunMenu();
+                mainMenu.RunMenu();
             }
         }
     }

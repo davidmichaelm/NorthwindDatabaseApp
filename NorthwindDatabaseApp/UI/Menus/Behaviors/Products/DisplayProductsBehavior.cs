@@ -18,24 +18,26 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
             _displayType = displayType;
         }
         
-        public override bool Run()
+        public override void Run()
         {
             switch (_displayType)
             {
                 case ProductDisplayBehaviorType.AllProducts:
                     DisplayAllProductsAsync();
                     _input.GetStringInput();
-                    return true;
+                    break;
                 case ProductDisplayBehaviorType.ActiveProducts:
-                    return DisplaySomeProducts(p => !p.Discontinued);
+                    DisplaySomeProducts(p => !p.Discontinued);
+                    break;
                 case ProductDisplayBehaviorType.DiscontinuedProducts:
-                    return DisplaySomeProducts(p => p.Discontinued);
+                    DisplaySomeProducts(p => p.Discontinued);
+                    break;
                 case ProductDisplayBehaviorType.ProductDetails:
-                    return DisplayProductDetails();
+                    DisplayProductDetails();
+                    break;
                 default:
                     logger.Error("Unkown ProductDisplayBehaviorType");
-                    return true;
-            }
+                    break;            }
         }
 
         private async void DisplayAllProductsAsync()
@@ -80,7 +82,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
             return await db.Products.ToListAsync();
         }
 
-        private bool DisplaySomeProducts(Func<Product, bool> searchCondition)
+        private void DisplaySomeProducts(Func<Product, bool> searchCondition)
         {
             using (var db = new NorthwindContext())
             {
@@ -92,10 +94,9 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
                 
                 logger.Info("Fetched {0} products from the database", productList.Count);
             }
-            return true;
         }
 
-        private bool DisplayProductDetails()
+        private void DisplayProductDetails()
         {
             var userProductIdChoice = GetUserProductIdChoice();
 
@@ -121,10 +122,6 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
                     logger.Error("Failed to find product with ProductId {0}", userProductIdChoice);
                 }
             }
-            
-            return true;
         }
-
-        
     }
 }

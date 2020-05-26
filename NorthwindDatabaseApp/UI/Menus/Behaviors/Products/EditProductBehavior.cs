@@ -12,7 +12,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
         public EditProductBehavior(IDisplay display, IInput input) : base(display, input)
         {
         }
-        public override bool Run()
+        public override void Run()
         {
             using (var db = new NorthwindContext())
             {
@@ -90,8 +90,6 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
                     logger.Error("Failed to edit category with ProductId {0}", productId);
                 }
             }
-            
-            return true;
         }
     }
 }

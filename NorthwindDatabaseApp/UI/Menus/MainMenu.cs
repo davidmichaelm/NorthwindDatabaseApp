@@ -18,24 +18,12 @@ namespace NorthwindDatabaseApp.UI.Menus
                 {"2", "Manage Categories"},
                 {"3", "Exit"}
             };
-            MenuActions = new Dictionary<string, Func<bool>>
+            MenuActions = new Dictionary<string, Action>
             {
                 {"1", productsMenu.RunMenu},
                 {"2", categoriesMenu.RunMenu},
                 {"3", ExitMenu}
             };
-        }
-
-        public new bool RunMenu()
-        {
-            bool keepRunning;
-            do
-            {
-                var userChoice = _input.GetMenuOption(MenuOptions);
-                keepRunning = MenuActions[userChoice]();
-            } while (keepRunning);
-
-            return false;
         }
     }
 }

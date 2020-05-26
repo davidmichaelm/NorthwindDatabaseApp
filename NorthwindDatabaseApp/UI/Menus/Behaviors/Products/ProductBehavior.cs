@@ -15,7 +15,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
             _input = input;
         }
 
-        public abstract bool Run();
+        public abstract void Run();
 
         protected string GetProductName()
         {

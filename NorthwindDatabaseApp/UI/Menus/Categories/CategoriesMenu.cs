@@ -20,12 +20,12 @@ namespace NorthwindDatabaseApp.UI.Menus.Categories
                 {"4", "Delete Category"},
                 {"5", "Back"}
             };
-            MenuActions = new Dictionary<string, Func<bool>>
+            MenuActions = new Dictionary<string, Action>
             {
                 {"1", displayMenu.RunMenu},
-                {"2", addBehavior.Run},
-                {"3", editBehavior.Run},
-                {"4", deleteBehavior.Run},
+                {"2", () => addBehavior.Run()},
+                {"3", () => editBehavior.Run()},
+                {"4", () => deleteBehavior.Run()},
                 {"5", ExitMenu}
             };
         }
