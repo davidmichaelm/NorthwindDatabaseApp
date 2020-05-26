@@ -14,7 +14,7 @@ namespace NorthwindDatabaseApp.UI
         
         public string GetMenuOption(Dictionary<string, string> menuOptions)
         {
-            _display.ShowMessage("Enter the number of one of the following options:\n");
+            _display.ShowMessage("\nEnter the number of one of the following options:\n");
             foreach (var option in menuOptions)
             {
                 _display.ShowMessage(option.Key + ". " + option.Value + "\n");

@@ -23,86 +23,56 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
             switch (_displayType)
             {
                 case ProductDisplayBehaviorType.AllProducts:
-                    DisplayAllProductsAsync();
-                    _input.GetStringInput();
+                    DisplayProductsAsync(p => true);
                     break;
                 case ProductDisplayBehaviorType.ActiveProducts:
-                    DisplaySomeProducts(p => !p.Discontinued);
+                    DisplayProductsAsync(p => !p.Discontinued);
                     break;
                 case ProductDisplayBehaviorType.DiscontinuedProducts:
-                    DisplaySomeProducts(p => p.Discontinued);
+                    DisplayProductsAsync(p => p.Discontinued);
                     break;
                 case ProductDisplayBehaviorType.ProductDetails:
                     DisplayProductDetails();
                     break;
                 default:
                     logger.Error("Unkown ProductDisplayBehaviorType");
-                    break;            }
+                    break;
+            }
+            _input.GetStringInput();
         }
 
-        private async void DisplayAllProductsAsync()
+        private async void DisplayProductsAsync(Func<Product, bool> searchCondition)
         {
             using (var db = new NorthwindContext())
             {
-                var cts = new CancellationTokenSource();
-                var progress = Progress(cts.Token);
-                var productTask = GetProductsAsync(db);
-                
+                var loading = Loading.Create(_display);
+                var productList = await GetProductsAsync(db);
 
-                var productList = await productTask;
-                cts.Cancel();
+                loading.Cancel();
 
-                foreach (var product in productList)
-                {
-                    _display.ShowMessage(product.ProductID + " - " + product.ProductName + "\n");
-                }
+                DisplayProductList(productList.Where(searchCondition).ToList());
                 _display.ShowMessage("Press any key to continue");
                 
                 logger.Info("Fetched {0} products from the database", productList.Count());
             }
         }
-
-        private async Task Progress(CancellationToken token)
-        {
-            while (!token.IsCancellationRequested)
-            {
-                _display.ShowMessage("\rFetching... /");
-                await Task.Delay(100, token);
-                _display.ShowMessage("\rFetching... —");
-                await Task.Delay(100, token);
-                _display.ShowMessage("\rFetching... \\");
-                await Task.Delay(100, token);
-                _display.ShowMessage("\rFetching... |");
-                await Task.Delay(100, token);
-            }
-        }
-
-        private async Task<List<Product>> GetProductsAsync(NorthwindContext db)
-        {
-            return await db.Products.ToListAsync();
-        }
-
-        private void DisplaySomeProducts(Func<Product, bool> searchCondition)
-        {
-            using (var db = new NorthwindContext())
-            {
-                var productList = db.Products.Where(searchCondition).ToList();
-                foreach (var product in productList)
-                {
-                    _display.ShowMessage(product.ProductID + " - " + product.ProductName + "\n");
-                }
-                
-                logger.Info("Fetched {0} products from the database", productList.Count);
-            }
-        }
-
+        
         private void DisplayProductDetails()
         {
             var userProductIdChoice = GetUserProductIdChoice();
+            DisplayChosenProductDetails(userProductIdChoice);
+        }
 
+        /*
+         * Although this method is async, it won't really matter since the connection
+         * is already made when getting the userProductIdChoice...
+        */
+        private async void DisplayChosenProductDetails(int userProductIdChoice)
+        {
             using (var db = new NorthwindContext())
             {
-                var product = db.Products.Find(userProductIdChoice);
+                var productList = await GetProductsAsync(db);
+                var product = productList.First(p => p.ProductID == userProductIdChoice);
                 if (product != null)
                 {
                     _display.ShowMessage("ProductID - " + product.ProductID + "\n" +
@@ -121,6 +91,22 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
                     _display.ShowMessage("Product with that ID was not found");
                     logger.Error("Failed to find product with ProductId {0}", userProductIdChoice);
                 }
+            }
+            _display.ShowMessage("Press any key to continue");
+        }
+        
+        private async Task<List<Product>> GetProductsAsync(NorthwindContext db)
+        {
+            return await db.Products.ToListAsync();
+        }
+
+        private void DisplayProductList(List<Product> productList)
+        {
+            _display.ShowMessage("\n\nProduct List\n" +
+                                     "------------\n");
+            foreach (var product in productList)
+            {
+                _display.ShowMessage(product.ProductID + " - " + product.ProductName + "\n");
             }
         }
     }
