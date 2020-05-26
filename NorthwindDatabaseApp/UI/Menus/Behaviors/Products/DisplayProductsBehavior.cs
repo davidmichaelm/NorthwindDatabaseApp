@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using NorthwindConsole.Models;
 
 namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
@@ -19,7 +23,9 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
             switch (_displayType)
             {
                 case ProductDisplayBehaviorType.AllProducts:
-                    return DisplayAllProducts();
+                    DisplayAllProductsAsync();
+                    _input.GetStringInput();
+                    return true;
                 case ProductDisplayBehaviorType.ActiveProducts:
                     return DisplaySomeProducts(p => !p.Discontinued);
                 case ProductDisplayBehaviorType.DiscontinuedProducts:
@@ -32,20 +38,46 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
             }
         }
 
-        private bool DisplayAllProducts()
+        private async void DisplayAllProductsAsync()
         {
             using (var db = new NorthwindContext())
             {
-                var productList = db.Products;
+                var cts = new CancellationTokenSource();
+                var progress = Progress(cts.Token);
+                var productTask = GetProductsAsync(db);
+                
+
+                var productList = await productTask;
+                cts.Cancel();
+
                 foreach (var product in productList)
                 {
                     _display.ShowMessage(product.ProductID + " - " + product.ProductName + "\n");
                 }
+                _display.ShowMessage("Press any key to continue");
                 
                 logger.Info("Fetched {0} products from the database", productList.Count());
             }
-            
-            return true;
+        }
+
+        private async Task Progress(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                _display.ShowMessage("\rFetching... /");
+                await Task.Delay(100, token);
+                _display.ShowMessage("\rFetching... —");
+                await Task.Delay(100, token);
+                _display.ShowMessage("\rFetching... \\");
+                await Task.Delay(100, token);
+                _display.ShowMessage("\rFetching... |");
+                await Task.Delay(100, token);
+            }
+        }
+
+        private async Task<List<Product>> GetProductsAsync(NorthwindContext db)
+        {
+            return await db.Products.ToListAsync();
         }
 
         private bool DisplaySomeProducts(Func<Product, bool> searchCondition)

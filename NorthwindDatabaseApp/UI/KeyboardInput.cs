@@ -35,7 +35,7 @@ namespace NorthwindDatabaseApp.UI
             return Console.ReadLine();
         }
 
-        private string GetStringInput()
+        public string GetStringInput()
         {
             return Console.ReadLine();
         }

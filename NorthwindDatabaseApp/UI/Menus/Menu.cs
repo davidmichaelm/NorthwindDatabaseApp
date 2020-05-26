@@ -18,7 +18,6 @@ namespace NorthwindDatabaseApp.UI.Menus
             _input = input;
         }
 
-        // Return true to run the menu again, false to stop
         public bool RunMenu()
         {
             bool keepRunning;
