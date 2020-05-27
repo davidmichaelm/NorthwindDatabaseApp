@@ -55,7 +55,7 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
 
         protected short GetReorderLevel()
         {
-            return _input.GetShortInput("Enter the reorder level (int):");
+            return _input.GetShortInput("Enter the reorder level (short):");
         }
 
         protected decimal GetUnitPrice()
@@ -65,17 +65,17 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
 
         protected string GetQuantityPerUnit()
         {
-            return _input.GetStringInput("Enter the quantity per unit:");
+            return _input.GetStringInput("Enter the quantity per unit (string):");
         }
 
         protected short GetUnitsInStock()
         {
-            return _input.GetShortInput("Enter how many units are in stock (int):");
+            return _input.GetShortInput("Enter how many units are in stock (short):");
         }
 
         protected short GetUnitsOnOrder()
         {
-            return _input.GetShortInput("Enter how many units are on order (int):");
+            return _input.GetShortInput("Enter how many units are on order (short):");
         }
 
         protected int GetUserProductIdChoice()

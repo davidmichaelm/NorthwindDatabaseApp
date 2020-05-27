@@ -70,7 +70,7 @@ namespace NorthwindDatabaseApp.UI
             short shortInput;
             while (!short.TryParse(stringInput, out shortInput))
             {
-                stringInput = GetStringInput("Enter a valid decimal:");
+                stringInput = GetStringInput("Enter a valid short int:");
             }
 
             return shortInput;

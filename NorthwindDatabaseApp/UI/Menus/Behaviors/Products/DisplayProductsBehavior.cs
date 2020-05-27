@@ -75,7 +75,9 @@ namespace NorthwindDatabaseApp.UI.Menus.Behaviors.Products
                 var product = productList.First(p => p.ProductID == userProductIdChoice);
                 if (product != null)
                 {
-                    _display.ShowMessage("ProductID - " + product.ProductID + "\n" +
+                    _display.ShowMessage("\n\nProduct Details" +
+                                             "---------------\n" +
+                                         "ProductID - " + product.ProductID + "\n" +
                                          "ProductName - " + product.ProductName + "\n" +
                                          "QuantityPerUnit - " + product.QuantityPerUnit + "\n" +
                                          "UnitPrice - " + product.UnitPrice + "\n" +
